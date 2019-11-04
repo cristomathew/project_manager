@@ -1,0 +1,21 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block content %}
+    <h1>Design Project</h1>
+    {% for post in posts %}
+    {% if user == post.author %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="{% url 'DP-user-idea' post.author.username %}">{{ post.author.profile.name }}-{{ post.author.profile.class_div }}-{{ post.author.profile.rollno }}</a>
+            <small class="text-muted">{{ post.date_submitted|date:"F d, Y" }}</small>
+          </div>
+          <h2><a class="article-title" href="{% url 'DP-idea-detail' post.id %}">{{ post.title }}</a></h2>
+
+        </div>
+      </article>
+    {% endif %}
+
+    {% endfor %}
+{% endblock content %}

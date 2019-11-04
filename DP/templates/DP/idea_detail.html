@@ -1,0 +1,42 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block content %}
+  {% if request.user.is_superuser %}
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="{% url 'DP-user-idea' object.author.username %}">{{ object.author.profile.name }}-{{ object.author.profile.class_div }}-{{ object.author.profile.rollno }}</a>
+          <small class="text-muted">{{ object.date_submitted|date:"F d, Y" }}</small>
+          {% if user == object.author %}
+            <div>
+              <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'DP-idea-update' object.id %}">Update</a>
+              <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'DP-idea-delete' object.id %}">Delete</a>
+            </div>
+          {% endif %}
+        </div>
+        <h2 class="article-title" >{{ object.title }}</h2>
+        <p>{{ object.summary }}</p>
+
+      </div>
+    </article>
+  {% elif user == object.author %}
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="#">{{ object.author.profile.name }}-{{ object.author.profile.class_div }}-{{ object.author.profile.rollno }}</a>
+          <small class="text-muted">{{ object.date_submitted|date:"F d, Y" }}</small>
+          <div>
+            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'DP-idea-update' object.id %}">Update</a>
+            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'DP-idea-delete' object.id %}">Delete</a>
+          </div>
+        </div>
+        <h2 class="article-title" >{{ object.title }}</h2>
+        <p>{{ object.summary }}</p>
+      </div>
+    </article>
+  {% else %}
+    <h1>You are not Authorised to view this content</h1>
+  {% endif %}
+{% endblock content %}

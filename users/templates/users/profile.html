@@ -7,8 +7,13 @@
     <div class="media-body">
       <h2 class="account-heading" style="color:white">{{ user.profile.name }}</h2>
       <h4 style="color:white">{{ user.email }}</h4>
-      <h5 style="color:white">{{ user.profile.class_div }}</h5>
-      <h5 style="color:white">{{ user.profile.rollno }}</h5>
+      {% if request.user.is_superuser %}
+        <h3 style="color:white">Teacher</h3>
+      {% else %}
+        <h3 style="color:white">Student</h3>
+        <h5 style="color:white">{{ user.profile.class_div }}</h5>
+        <h5 style="color:white">{{ user.profile.rollno }}</h5>
+      {% endif %}
       </div>
     </div>
     <form method="POST" enctype="multipart/form-data">

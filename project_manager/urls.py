@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('home.urls')),
     path('DP/',include('DP.urls')),
+    path('ADSL/',include('ADSL.urls')),
     path('users/',include('users.urls')),
 ]
 if settings.DEBUG:

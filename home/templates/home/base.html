@@ -10,15 +10,42 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
     <link rel="stylesheet" type="text/css" href="{% static 'home/main.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'home/style.css' %}">
     {% if title %}
       <title>{{ title }}</title>
     {% else %}
       <title>Vilicus operis</title>
     {% endif %}
+    <style>
+      .dropdown {
+        position: relative;
+        display: inline-block;
+
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #000000;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px 16px;
+        z-index: 1;
+      }
+      .dropdown:hover{
+        background-color: #fa1b5a;
+        border-radius: 5px;
+      }
+      .dropdown:hover .dropdown-content {
+        display: block;
+
+      }
+
+      </style>
   </head>
   <body>
     <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top style">
         <div class="container">
           <a class="navbar-brand mr-4" href="/">Main Page</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,8 +55,40 @@
             <div class="navbar-nav mr-auto">
               {% if user.is_authenticated %}
                 {% if request.user.is_superuser %}
-                  <a class="btn btn-otline nav-item nav-link" href="{% url 'DP-home' %}">Design Project</a>
-                  <a class="btn btn-otline nav-item nav-link" href="#">ADSL Project</a>
+                <div class="dropdown">
+                  <span class="btn btn-otline nav-item nav-link">Design Project</span>
+                  <div class="dropdown-content">
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'DP-abstract-home' %}">Design Project Abstracts</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'DP-idea-home' %}">Design Project Ideas</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <span class="btn btn-otline nav-item nav-link">ADSL Project</span>
+                  <div class="dropdown-content">
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'ADSL-abstract-home' %}">ADSL Project Abstracts</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'ADSL-idea-home' %}">ADSL Project Ideas</a>
+                  </div>
+                </div>
+
+                {% else %}
+                <div class="dropdown">
+                  <span class="btn btn-otline nav-item nav-link">Design Project</span>
+                  <div class="dropdown-content">
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'DP-idea-public' %}">View Idea</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'DP-idea-create' %}">Create Idea</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'DP-abstract-public' %}">View Abstract</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'DP-abstract-create' %}">Create Abstract</a>
+                  </div>
+                </div>
+                <div class="dropdown">
+                  <span class="btn btn-otline nav-item nav-link">ADSL Project</span>
+                  <div class="dropdown-content">
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'ADSL-idea-public' %}">View Idea</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'ADSL-idea-create' %}">Create Idea</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'ADSL-abstract-public' %}">View Abstract</a>
+                    <a class="btn btn-otline nav-item nav-link" href="{% url 'ADSL-abstract-create' %}">Create Abstract</a>
+                  </div>
+                </div>
                 {% endif %}
               {% endif %}
               <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
@@ -37,7 +96,18 @@
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if user.is_authenticated %}
-                <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
+                {% if request.user.is_superuser %}
+                <div class="dropdown">
+                  <span class="btn btn-otline nav-item nav-link">Students</span>
+                  <div class="dropdown-content">
+                    <a class="btn btn-otline nav-item nav-link" href="#">Grade</a>
+                  </div>
+                </div>
+                <a class="nav-item nav-link" href="{% url 'teacher-profile' %}">Profile</a>
+                {% else %}
+                <a class="nav-item nav-link" href="{% url 'student-profile' %}">Profile</a>
+                {% endif %}
+
                 <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
               {% else %}
                 <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
