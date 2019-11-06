@@ -26,9 +26,9 @@ class UserPostListView(LoginRequiredMixin,ListView):
     model = ADSL_Document
     template_name = 'ADSL/user_abstract.html'
     context_object_name = 'posts'
-    def get_query_set(self):
+    def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return ADSL_Document.objects.filter(author=user).ordery_by('uploaded_at')
+        return ADSL_Document.objects.filter(author=user).order_by('uploaded_at')
 
 class PostDetailView(LoginRequiredMixin,DetailView):
     model = ADSL_Document
@@ -91,9 +91,9 @@ class UserIdeaListView(LoginRequiredMixin,ListView):
     model = ADSL_Abstract
     template_name = 'ADSL/user_idea.html'
     context_object_name = 'posts'
-    def get_query_set(self):
+    def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return ADSL_Abstract.objects.filter(author=user).ordery_by('uploaded_at')
+        return ADSL_Abstract.objects.filter(author=user).order_by('uploaded_at')
 class IdeaDetailView(LoginRequiredMixin,DetailView):
     model = ADSL_Abstract
     template_name = 'ADSL/idea_detail.html'

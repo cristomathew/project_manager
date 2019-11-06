@@ -5,11 +5,12 @@
       <form method="POST">
         {% csrf_token %}
         <fieldset class="form-group">
-          <legend class="border-bottom md-4">Register</legend>
-          {{ form|crispy }}
+          <legend class="border-bottom md-4" style="color:white">Register</legend>
+          <h5 style="color:red">Please register your username as your Class_Rollno</h5>
+          <h3 style="color:white">{{ form|crispy }}</h3>
         </fieldset>
-        <div class="form-group">
-          <button class="btn btn-outline-info" type="submit">Register</button>
+        <div class="form-group"  align="center">
+          <button class="btn btn-outline-info" type="submit" align="center">Register</button>
         </div>
       </form>
         <div class="border-top pt-3">

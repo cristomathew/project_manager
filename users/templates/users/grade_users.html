@@ -1,0 +1,37 @@
+{% extends "home/base.html" %}
+{% load static %}
+{% block content %}
+  {% if request.user.is_superuser %}
+    <h1>Student Grades</h1>
+    {% for post in posts %}
+    {% if post.Subject == "Design Project" %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ post.Student.profile.image.url }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ post.Student.profile.name }}-{{ post.Student.profile.class_div }}-{{ post.Student.profile.rollno }}</a>
+          </div>
+          <h4><a class="article-title" href="#" style="color:#fcf003">Name : {{ post.StudentName }}</a></h4>
+          <h3><a class="article-title" href="#" style="color:#fcf003">Subject:{{ post.Subject }}</a></h3>
+          <h3><a class="article-title" href="#" style="color:#fcf003">Abstract Marks :{{ post.Abstract_Marks }}</a></h3>
+          <h3><a class="article-title" href="#" style="color:#fcf003">Code Marks:{{ post.Code_Marks }}</a></h3>
+        </div>
+      </article>
+    {% endif %}
+    {% if post.Subject == "ASDL Lab" %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ post.Student.profile.image.url }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <a class="mr-2" href="#">{{ post.Student.profile.name }}-{{ post.Student.profile.class_div }}-{{ post.Student.profile.rollno }}</a>
+          </div>
+          <h4><a class="article-title" href="#" style="color:#fcf003">Name : {{ post.StudentName }}</a></h4>
+          <h3><a class="article-title" href="#" style="color:#fcf003">Subject:{{ post.Subject }}</a></h3>
+          <h3><a class="article-title" href="#" style="color:#fcf003">Abstract Marks :{{ post.Abstract_Marks }}</a></h3>
+          <h3><a class="article-title" href="#" style="color:#fcf003">Code Marks:{{ post.Code_Marks }}</a></h3>
+        </div>
+      </article>
+    {% endif %}
+    {% endfor %}
+  {% endif %}
+{% endblock content %}

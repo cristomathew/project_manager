@@ -1,6 +1,45 @@
 {% extends "home/base.html" %}
 {% load static %}
 {% block content %}
+<style>
+  .butt{
+    position: fixed;
+    bottom: 0%;
+    left: 90%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    align-content: center;
+    font-family: "Lucida Console", Monaco, monospace;
+    padding: 10px 20px;
+    margin-bottom: 20px;
+
+  }
+  .butt-content {
+    display: none;
+    background-color: #000000;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+  }
+  .material-icons.md-52 { font-size: 52px; }
+
+  .butt a:hover{
+    color: yellow;
+  }
+  .butt:hover .butt-content {
+    display: block;
+    position: fixed;
+    bottom: 0%;
+    left: 90%;
+
+
+  }
+  .material-icons.md-48 { font-size: 52px; }
+</style>
     <h1>Design Project</h1>
     {% for post in posts %}
     {% if user == post.author %}
@@ -8,14 +47,18 @@
         <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
         <div class="media-body">
           <div class="article-metadata">
-            <a class="mr-2" href="{% url 'DP-user-idea' post.author.username %}">{{ post.author.profile.name }}-{{ post.author.profile.class_div }}-{{ post.author.profile.rollno }}</a>
+            <a class="mr-2" href="#" style="color:white">{{ post.author.profile.name }}-{{ post.author.profile.class_div }}-{{ post.author.profile.rollno }}</a>
             <small class="text-muted">{{ post.date_submitted|date:"F d, Y" }}</small>
           </div>
-          <h2><a class="article-title" href="{% url 'DP-idea-detail' post.id %}">{{ post.title }}</a></h2>
+          <h2><a class="article-title" href="{% url 'DP-idea-detail' post.id %}" style="color:#fcf003">{{ post.title }}</a></h2>
 
         </div>
       </article>
     {% endif %}
 
     {% endfor %}
+    <div class="butt">
+      <a href="{% url 'DP-idea-create' %}"><i class="material-icons md-48">add_circle</i></a>
+      <p class="butt-content">New</p>
+    </div>
 {% endblock content %}

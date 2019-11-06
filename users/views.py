@@ -1,7 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import UserRegisterForm, UserUpdateForm, StudentProfileUpdateForm, TeacherProfileUpdateForm
+from .forms import UserRegisterForm, UserUpdateForm, StudentProfileUpdateForm, TeacherProfileUpdateForm, StudentGrade
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import (
+ListView
+)
+from .models import Grade
 # Create your views here.
 
 def register(request):
@@ -24,7 +29,7 @@ def teacherprofile(request):
             u_form.save()
             p_form.save()
             messages.success(request, f'Profile has been successfully update!')
-            return redirect('profile')
+            return redirect('teacher-profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = TeacherProfileUpdateForm(instance=request.user.profile)
@@ -35,6 +40,42 @@ def teacherprofile(request):
 
     }
     return render(request, 'users/profile.html', context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def studentgrade(request):
+    if request.method == "POST":
+        form = StudentGrade(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('Student')
+            form.instance.StudentName = username.profile.name
+            form.instance.class_div = username.profile.class_div
+            form.instance.rollno = username.profile.rollno
+            form.save()
+            name = username.profile.name
+            clas = username.profile.class_div
+            rollno = username.profile.rollno
+            messages.success(request, f'Grade has been successfully uploaded for {name} rollno {rollno} of {clas}')
+            return redirect('/')
+    else:
+        form = StudentGrade()
+
+    context = {
+        'form': form,
+        'title':'Student Grade'
+
+    }
+    return render(request, 'users/grade.html', context)
+@user_passes_test(lambda u: u.is_superuser)
+def all_grade(request):
+    context = {
+        'posts': Grade.objects.all(),
+        'title': 'Student Grade',
+    }
+    return render(request, 'users/grade_users.html',context)
+class PostListView(LoginRequiredMixin,ListView):
+    model = Grade
+    template_name = 'users/my_grade.html'
+    context_object_name = 'posts'
 @login_required
 def studentprofile(request):
     if request.method == "POST":
@@ -44,7 +85,7 @@ def studentprofile(request):
             u_form.save()
             p_form.save()
             messages.success(request, f'Profile has been successfully update!')
-            return redirect('profile')
+            return redirect('student-profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = StudentProfileUpdateForm(instance=request.user.profile)

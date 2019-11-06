@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse
 from .models import Ideas, Document
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from .forms import DocumentForm
 from django.views.generic import (
 ListView,
@@ -31,9 +32,9 @@ class UserPostListView(LoginRequiredMixin,ListView):
     model = Document
     template_name = 'DP/user_abstract.html'
     context_object_name = 'posts'
-    def get_query_set(self):
+    def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Document.objects.filter(author=user).ordery_by('uploaded_at')
+        return Document.objects.filter(author=user).order_by('uploaded_at')
 class PostDetailView(LoginRequiredMixin,DetailView):
     model = Document
     template_name = 'DP/abstract_detail.html'
@@ -97,9 +98,9 @@ class UserIdeaListView(LoginRequiredMixin,ListView):
     model = Ideas
     template_name = 'DP/user_idea.html'
     context_object_name = 'posts'
-    def get_query_set(self):
+    def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Ideas.objects.filter(author=user).ordery_by('uploaded_at')
+        return Ideas.objects.filter(author=user).order_by('uploaded_at')
 class IdeaDetailView(LoginRequiredMixin,DetailView):
     model = Ideas
     template_name = 'DP/idea_detail.html'

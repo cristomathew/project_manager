@@ -10,7 +10,7 @@
           <a class="mr-2" href="{% url 'ADSL-user-idea' post.author.username %}">{{ post.author.profile.name }}-{{ post.author.profile.class_div }}-{{ post.author.profile.rollno }}</a>
           <small class="text-muted">{{ post.date_submitted|date:"F d, Y" }}</small>
         </div>
-        <h2><a class="article-title" href="{% url 'ADSL-idea-detail' post.id %}">{{ post.title }}</a></h2>
+        <h2><a class="article-title" href="{% url 'ADSL-idea-detail' post.id %}" style="color:#fcf003">{{ post.title }}</a></h2>
 
       </div>
     </article>

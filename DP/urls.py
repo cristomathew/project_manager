@@ -16,7 +16,7 @@ UserPostListView
 from . import views
 urlpatterns = [
     path('abstract', views.home, name="DP-abstract-home"),
-    path('user/<username>/abstract',UserPostListView.as_view(), name="DP-user-abstract"),
+    path('user/<str:username>',UserPostListView.as_view(), name="DP-user-abstract"),
     path('abstract/public', PostListView.as_view(), name="DP-abstract-public"),
     path('abstract/new/', DocumentCreateView, name="DP-abstract-create"),
     path('abstract/<pk>/update/', DocumentUpdateView.as_view(), name="DP-abstract-update"),
